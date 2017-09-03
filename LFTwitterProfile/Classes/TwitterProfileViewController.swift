@@ -32,27 +32,8 @@ open class TwitterProfileViewController: UIViewController {
   
   open var username: String? {
     didSet {
-      self.profileHeaderView?.titleLabel?.text = username
-      
+
       self.navigationTitleLabel?.text = username
-    }
-  }
-  
-  open var profileImage: UIImage? {
-    didSet {
-      self.profileHeaderView?.iconImageView?.image = profileImage
-    }
-  }
-  
-  open var locationString: String? {
-    didSet {
-      self.profileHeaderView?.locationLabel?.text = locationString
-    }
-  }
-  
-  open var descriptionString: String? {
-    didSet {
-      self.profileHeaderView?.descriptionLabel?.text = descriptionString
     }
   }
   
@@ -81,8 +62,8 @@ open class TwitterProfileViewController: UIViewController {
   
   var headerCoverView: UIImageView!
   
-  var profileHeaderView: TwitterProfileHeaderView!
-  
+//  var profileHeaderView: TwitterProfileHeaderView!
+
   var stickyHeaderContainerView: UIView!
   
   var blurEffectView: UIVisualEffectView!
@@ -117,15 +98,10 @@ open class TwitterProfileViewController: UIViewController {
   override open func viewDidLayoutSubviews() {
     super.viewDidLayoutSubviews()
     
-    print(profileHeaderView.sizeThatFits(self.mainScrollView.bounds.size))
-    self.profileHeaderViewHeight = profileHeaderView.sizeThatFits(self.mainScrollView.bounds.size).height
-    
     if self.shouldUpdateScrollViewContentFrame {
       
       // configure layout frames
       self.stickyHeaderContainerView.frame = self.computeStickyHeaderContainerViewFrame()
-      
-      self.profileHeaderView.frame = self.computeProfileHeaderViewFrame()
       
       self.segmentedControlContainer.frame = self.computeSegmentedControlContainerFrame()
 
@@ -205,7 +181,7 @@ extension TwitterProfileViewController {
     
     // Navigation Title
     let _navigationTitleLabel = UILabel()
-    _navigationTitleLabel.text = self.username ?? "{username}"
+    _navigationTitleLabel.text = "Title here"
     _navigationTitleLabel.textColor = UIColor.white
     _navigationTitleLabel.font = UIFont.boldSystemFont(ofSize: 17.0)
     _stickyHeaderContainer.addSubview(_navigationTitleLabel)
@@ -217,18 +193,6 @@ extension TwitterProfileViewController {
     
     // preset the navigation title and detail at progress=0 position
     animateNaivationTitleAt(progress: 0)
-    
-    // ProfileHeaderView
-    
-    if let _profileHeaderView = Bundle.bundleFromPod()?.loadNibNamed("TwitterProfileHeaderView", owner: self, options: nil)?.first as? TwitterProfileHeaderView {
-      _mainScrollView.addSubview(_profileHeaderView)
-      self.profileHeaderView = _profileHeaderView
-      
-      self.profileHeaderView.usernameLabel.text = self.username
-      self.profileHeaderView.locationLabel.text = self.locationString
-      self.profileHeaderView.iconImageView.image = self.profileImage
-    }
-    
     
     // Segmented Control Container
     let _segmentedControlContainer = UIView.init(frame: CGRect.init(x: 0, y: 0, width: mainScrollView.bounds.width, height: 100))
@@ -247,10 +211,10 @@ extension TwitterProfileViewController {
     return CGRect(x: 0, y: 0, width: mainScrollView.bounds.width, height: stickyheaderContainerViewHeight)
   }
   
-  func computeProfileHeaderViewFrame() -> CGRect {
-    return CGRect(x: 0, y: computeStickyHeaderContainerViewFrame().origin.y + stickyheaderContainerViewHeight, width: mainScrollView.bounds.width, height: profileHeaderViewHeight)
-  }
-  
+//  func computeProfileHeaderViewFrame() -> CGRect {
+//    return CGRect(x: 0, y: computeStickyHeaderContainerViewFrame().origin.y + stickyheaderContainerViewHeight, width: mainScrollView.bounds.width, height: profileHeaderViewHeight)
+//  }
+
   func computeTableViewFrame(tableView: UIScrollView) -> CGRect {
     let upperViewFrame = computeSegmentedControlContainerFrame()
     return CGRect(x: 0, y: upperViewFrame.origin.y + upperViewFrame.height , width: mainScrollView.bounds.width, height: tableView.contentSize.height)
@@ -265,8 +229,7 @@ extension TwitterProfileViewController {
   }
   
   func computeSegmentedControlContainerFrame() -> CGRect {
-    let rect = computeProfileHeaderViewFrame()
-    return CGRect(x: 0, y: rect.origin.y + rect.height, width: mainScrollView.bounds.width, height: segmentedControlContainerHeight)
+    return CGRect(x: 0, y: computeStickyHeaderContainerViewFrame().origin.y + stickyheaderContainerViewHeight, width: mainScrollView.bounds.width, height: segmentedControlContainerHeight)
     
   }
   
@@ -311,7 +274,7 @@ extension TwitterProfileViewController: UIScrollViewDelegate {
       baseInset.top += abs(contentOffset.y)
       self.mainScrollView.scrollIndicatorInsets = baseInset
       
-      self.mainScrollView.bringSubview(toFront: self.profileHeaderView)
+//      self.mainScrollView.bringSubview(toFront: self.profileHeaderView)
     } else {
       
       // anything to be set if contentOffset.y is positive
@@ -322,8 +285,8 @@ extension TwitterProfileViewController: UIScrollViewDelegate {
     // Universal
     // applied to every contentOffset.y
     let scaleProgress = max(0, min(1, contentOffset.y / self.scrollToScaleDownProfileIconDistance))
-    self.profileHeaderView.animator(t: scaleProgress)
-    
+//    self.profileHeaderView.animator(t: scaleProgress)
+
     if contentOffset.y > 0 {
     
       // When scroll View reached the threshold
@@ -333,7 +296,7 @@ extension TwitterProfileViewController: UIScrollViewDelegate {
         // bring stickyHeader to the front
         self.mainScrollView.bringSubview(toFront: self.stickyHeaderContainerView)
       } else {
-        self.mainScrollView.bringSubview(toFront: self.profileHeaderView)
+//        self.mainScrollView.bringSubview(toFront: self.profileHeaderView)
         self.stickyHeaderContainerView.frame = computeStickyHeaderContainerViewFrame()
       }
       
@@ -350,16 +313,16 @@ extension TwitterProfileViewController: UIScrollViewDelegate {
       
       // Override
       // When scroll View reached the top edge of Title label
-      if let titleLabel = profileHeaderView.titleLabel, let usernameLabel = profileHeaderView.usernameLabel  {
-        
-        // titleLabel location relative to self.view
-        let titleLabelLocationY = stickyheaderContainerViewHeight - 35
-        
-        let totalHeight = titleLabel.bounds.height + usernameLabel.bounds.height + 35
-        let detailProgress = max(0, min((contentOffset.y - titleLabelLocationY) / totalHeight, 1))
-        blurEffectView.alpha = detailProgress
-        animateNaivationTitleAt(progress: detailProgress)
-      }
+//      if let titleLabel = profileHeaderView.titleLabel, let usernameLabel = profileHeaderView.usernameLabel  {
+//        
+//        // titleLabel location relative to self.view
+//        let titleLabelLocationY = stickyheaderContainerViewHeight - 35
+//        
+//        let totalHeight = titleLabel.bounds.height + usernameLabel.bounds.height + 35
+//        let detailProgress = max(0, min((contentOffset.y - titleLabelLocationY) / totalHeight, 1))
+//        blurEffectView.alpha = detailProgress
+//        animateNaivationTitleAt(progress: detailProgress)
+//      }
     }
     // Segmented control is always on top in any situations
     self.mainScrollView.bringSubview(toFront: segmentedControlContainer)

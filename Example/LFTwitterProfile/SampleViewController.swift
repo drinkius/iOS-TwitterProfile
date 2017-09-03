@@ -39,11 +39,8 @@ class SampleViewController: TwitterProfileViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    
-    self.locationString = "Hong Kong"
+
     self.username = "memem"
-    
-    self.profileImage = UIImage.init(named: "icon.png")
   }
   
   override open func scrollView() -> UIScrollView {
