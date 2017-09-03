@@ -46,17 +46,8 @@ class SampleViewController: TwitterProfileViewController {
     self.profileImage = UIImage.init(named: "icon.png")
   }
   
-  override func scrollView(forSegment index: Int) -> UIScrollView {
-    switch index {
-    case 0:
+  override open func scrollView() -> UIScrollView {
       return tweetTableView
-//    case 1:
-//      return photosTableView
-//    case 2:
-//      return favoritesTableView
-    default:
-      return tweetTableView
-    }
   }
 }
 

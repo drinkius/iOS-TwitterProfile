@@ -86,9 +86,7 @@ open class TwitterProfileViewController: UIViewController {
   var stickyHeaderContainerView: UIView!
   
   var blurEffectView: UIVisualEffectView!
-  
-//  var segmentedControl: UISegmentedControl!
-//  
+
   var segmentedControlContainer: UIView!
 
   var navigationTitleLabel: UILabel!
@@ -129,11 +127,9 @@ open class TwitterProfileViewController: UIViewController {
       
       self.profileHeaderView.frame = self.computeProfileHeaderViewFrame()
       
-//      self.segmentedControlContainer.frame = self.computeSegmentedControlContainerFrame()
+      self.segmentedControlContainer.frame = self.computeSegmentedControlContainerFrame()
 
-//      self.scrollViews.forEach({ (scrollView) in
-//        scrollView.frame = self.computeTableViewFrame(tableView: scrollView)
-//      })
+        _scrollView.frame = self.computeTableViewFrame(tableView: _scrollView)
 
       self.updateMainScrollViewFrame()
       
@@ -240,32 +236,9 @@ extension TwitterProfileViewController {
     _mainScrollView.addSubview(_segmentedControlContainer)
     self.segmentedControlContainer = _segmentedControlContainer
 
-    // Segmented Control
-//    let _segmentedControl = UISegmentedControl()
-//    _segmentedControl.addTarget(self, action: #selector(self.segmentedControlValueDidChange(sender:)), for: .valueChanged)
-//    _segmentedControl.backgroundColor = UIColor.white
-//
-//    for index in 0..<numberOfSegments() {
-//      let segmentTitle = self.segmentTitle(forSegment: index)
-//      _segmentedControl.insertSegment(withTitle: segmentTitle, at: index, animated: false)
-//    }
-//    _segmentedControl.selectedSegmentIndex = 0
-//    _segmentedControlContainer.addSubview(_segmentedControl)
-//
-////    self.segmentedControl = _segmentedControl
-//
-//    _segmentedControl.snp.makeConstraints { (make) in
-////      make.edges.equalTo(_segmentedControlContainer).inset(UIEdgeInsetsMake(8, 16, 8, 16))
-//      make.width.equalToSuperview().offset(-16)
-//      make.centerX.equalToSuperview()
-//      make.centerY.equalTo(_segmentedControlContainer.snp.centerY)
-//    }
-
-//    for index in 0..<numberOfSegments() {
-      _scrollView = UITableView.init(frame: CGRect.zero, style: .grouped)
-      _scrollView.isHidden = false
-      _mainScrollView.addSubview(_scrollView)
-//    }
+   _scrollView = scrollView()
+   _scrollView.isHidden = false
+   _mainScrollView.addSubview(_scrollView)
 
     self.showDebugInfo()
   }
@@ -331,7 +304,6 @@ extension TwitterProfileViewController: UIScrollViewDelegate {
       
       // scaling effect
       let scalingFactor = 1 + min(log(bounceProgress + 1), 2)
-//      print(scalingFactor)
       self.headerCoverView.transform = CGAffineTransform(scaleX: scalingFactor, y: scalingFactor)
       
       // adjust mainScrollView indicator insets
@@ -426,27 +398,6 @@ extension TwitterProfileViewController {
   func updateTableViewContent() {
     print("currentIndex did changed \(self.currentIndex)")
   }
-  
-//  internal func segmentedControlValueDidChange(sender: AnyObject?) {
-//    self.currentIndex = self.segmentedControl.selectedSegmentIndex
-//    
-//    let scrollViewToBeShown: UIScrollView! = self.currentScrollView
-//    
-//    self.scrollViews.forEach { (scrollView) in
-//      scrollView?.isHidden = scrollView != scrollViewToBeShown
-//    }
-//    
-//    scrollViewToBeShown.frame = self.computeTableViewFrame(tableView: scrollViewToBeShown)
-//    self.updateMainScrollViewFrame()
-//    
-//    // auto scroll to top if mainScrollView.contentOffset > navigationHeight + segmentedControl.height
-//    let navigationHeight = self.scrollToScaleDownProfileIconDistance
-//    let threshold = self.computeProfileHeaderViewFrame().lf_originBottom - navigationHeight
-//    
-//    if mainScrollView.contentOffset.y > threshold {
-//      self.mainScrollView.setContentOffset(CGPoint(x: 0, y: threshold), animated: false)
-//    }
-//  }
 }
 
 extension TwitterProfileViewController {
@@ -484,9 +435,6 @@ extension CGRect {
 
 // MARK: Public interfaces
 extension TwitterProfileViewController {
-//  open func numberOfSegments() -> Int {
-//    return 0
-//  }
 
   open func segmentTitle(forSegment index: Int) -> String {
     return ""
@@ -496,7 +444,7 @@ extension TwitterProfileViewController {
     /* to be override */
   }
   
-  open func scrollView(forSegment index: Int) -> UIScrollView {
+  open func scrollView() -> UIScrollView {
     return UITableView.init(frame: CGRect.zero, style: .grouped)
   }
 }
