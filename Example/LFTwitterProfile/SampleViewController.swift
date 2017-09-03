@@ -19,11 +19,6 @@ class SampleViewController: TwitterProfileViewController {
   var custom: UIView!
   var label: UILabel!
   
-  
-  override func numberOfSegments() -> Int {
-    return 2
-  }
-  
   override func segmentTitle(forSegment index: Int) -> String {
     return "Segment \(index)"
   }
@@ -55,10 +50,10 @@ class SampleViewController: TwitterProfileViewController {
     switch index {
     case 0:
       return tweetTableView
-    case 1:
-      return photosTableView
-    case 2:
-      return favoritesTableView
+//    case 1:
+//      return photosTableView
+//    case 2:
+//      return favoritesTableView
     default:
       return tweetTableView
     }

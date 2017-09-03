@@ -8,12 +8,12 @@ DEPENDENCIES:
 
 EXTERNAL SOURCES:
   LFTwitterProfile:
-    :path: "../"
+    :path: ../
 
 SPEC CHECKSUMS:
-  LFTwitterProfile: f7d382d13cffe87c8d098a8a96167bf63ca9c551
+  LFTwitterProfile: 8dbb5458211d8f68be3b051181a58d71bf3bede6
   SnapKit: 2e456761aa92d4d4067a7a5594c18769d451a8ad
 
 PODFILE CHECKSUM: 20f026284def1f041c52adff3ee7407ddb652bc7
 
-COCOAPODS: 1.2.0.beta.1
+COCOAPODS: 1.3.1
