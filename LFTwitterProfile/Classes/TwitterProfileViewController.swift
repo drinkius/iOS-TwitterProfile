@@ -28,7 +28,7 @@ open class TwitterProfileViewController: UIViewController {
     }
   }
   
-  open let segmentedControlContainerHeight: CGFloat = 46
+  open let segmentedControlContainerHeight: CGFloat = 0
   
   open var username: String? {
     didSet {
@@ -57,12 +57,9 @@ open class TwitterProfileViewController: UIViewController {
     return _scrollView
   }
   
-  
   fileprivate var mainScrollView: UIScrollView!
   
   var headerCoverView: UIImageView!
-  
-//  var profileHeaderView: TwitterProfileHeaderView!
 
   var stickyHeaderContainerView: UIView!
   
@@ -139,6 +136,7 @@ extension TwitterProfileViewController {
     
     // sticker header Container view
     let _stickyHeaderContainer = UIView()
+//    _stickyHeaderContainer.backgroundColor = .clear
     _stickyHeaderContainer.clipsToBounds = true
     _mainScrollView.addSubview(_stickyHeaderContainer)
     self.stickyHeaderContainerView = _stickyHeaderContainer
@@ -281,11 +279,6 @@ extension TwitterProfileViewController: UIScrollViewDelegate {
       self.blurEffectView.alpha = 0
       self.mainScrollView.scrollIndicatorInsets = computeMainScrollViewIndicatorInsets()
     }
-    
-    // Universal
-    // applied to every contentOffset.y
-    let scaleProgress = max(0, min(1, contentOffset.y / self.scrollToScaleDownProfileIconDistance))
-//    self.profileHeaderView.animator(t: scaleProgress)
 
     if contentOffset.y > 0 {
     
@@ -310,20 +303,17 @@ extension TwitterProfileViewController: UIScrollViewDelegate {
       } else {
         segmentedControlContainer.frame = computeSegmentedControlContainerFrame()
       }
-      
-      // Override
-      // When scroll View reached the top edge of Title label
-//      if let titleLabel = profileHeaderView.titleLabel, let usernameLabel = profileHeaderView.usernameLabel  {
-//        
-//        // titleLabel location relative to self.view
-//        let titleLabelLocationY = stickyheaderContainerViewHeight - 35
-//        
-//        let totalHeight = titleLabel.bounds.height + usernameLabel.bounds.height + 35
-//        let detailProgress = max(0, min((contentOffset.y - titleLabelLocationY) / totalHeight, 1))
-//        blurEffectView.alpha = detailProgress
-//        animateNaivationTitleAt(progress: detailProgress)
-//      }
     }
+
+    /* // Uncomment to add title labels
+        let titleLabelLocationY = stickyheaderContainerViewHeight - 35
+
+        let totalHeight = navigationTitleLabel.bounds.height + 35
+        let detailProgress = max(0, min((contentOffset.y - titleLabelLocationY) / totalHeight, 1))
+        blurEffectView.alpha = detailProgress
+        animateNaivationTitleAt(progress: detailProgress)
+    */
+
     // Segmented control is always on top in any situations
     self.mainScrollView.bringSubview(toFront: segmentedControlContainer)
   }

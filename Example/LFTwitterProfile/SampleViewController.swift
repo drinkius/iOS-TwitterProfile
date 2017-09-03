@@ -48,8 +48,6 @@ class SampleViewController: TwitterProfileViewController {
   }
 }
 
-
-
 // MARK: UITableViewDelegates & DataSources
 extension SampleViewController: UITableViewDelegate, UITableViewDataSource {
   
